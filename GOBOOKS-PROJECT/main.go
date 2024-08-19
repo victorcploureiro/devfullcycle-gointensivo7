@@ -7,5 +7,12 @@ func sum(x, y int) int {
 }
 
 func main() {
-	fmt.Println("Hello", "World!", 2030)
+	// Definindo previamente o tipo
+	var x int
+	x = 10
+
+	//Shorthand
+	y := "this is a string"
+
+	fmt.Println(y)
 }
