@@ -2,17 +2,12 @@ package main
 
 import "fmt"
 
-func sum(x, y int) int {
-	return x + y
+func sum(x, y int) (int, int) {
+	result := x + y
+	return result, y
 }
 
 func main() {
-	// Definindo previamente o tipo
-	var x int
-	x = 10
-
-	//Shorthand
-	y := "this is a string"
-
-	fmt.Println(y)
+	x, y := sum(1, 3)
+	fmt.Println(x, y)
 }
