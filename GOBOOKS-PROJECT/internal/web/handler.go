@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"gobooks/internal/service"
 	"net/http"
+	"strconv"
 )
 
 type BookHandlers struct {
@@ -81,4 +82,20 @@ func (h *BookHandlers) UpdateBook(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(book)
+}
+
+func (h *BookHandlers) DeleteBook(w http.ResponseWriter, r *http.Request) {
+	idStr := r.PathValue("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "invalid book ID", http.StatusBadRequest)
+		return
+	}
+
+	if err := h.service.DeleteBook(id); err != nil {
+		http.Error(w, "failed to delete book", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }
