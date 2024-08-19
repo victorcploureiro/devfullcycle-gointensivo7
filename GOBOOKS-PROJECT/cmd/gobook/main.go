@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 	"gobooks/internal/service"
 	"gobooks/internal/web"
 	"net/http"
