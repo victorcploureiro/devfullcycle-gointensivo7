@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"gobooks/internal/service"
 )
 
 func sum(x, y int) (int, error) {
@@ -13,9 +14,11 @@ func sum(x, y int) (int, error) {
 }
 
 func main() {
-	x, err := sum(1, 3)
-	if err != nil {
-		panic(err)
+	book := service.Book {
+		ID: 1,
+		Title: "The Hobbit",
+		Author: "J.R.R. Tolkien",
+		Genre: "Fantasy",
 	}
-	fmt.Println(x)
+	fmt.Println("The book is:", book.Title)
 }
