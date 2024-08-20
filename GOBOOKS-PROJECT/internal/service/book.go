@@ -102,4 +102,6 @@ func (s *BookService) SimulateMultipleReadings(bookIDs []int, duration time.Dura
 	for range bookIDs {
 		responses = append(responses, <- results)
 	}
+	close(results)
+	return responses
 }
