@@ -99,8 +99,8 @@ func (s *BookService) SimulateMultipleReadings(bookIDs []int, duration time.Dura
 	}
 
 	var responses []string
-	for res := range results {
-		responses = append(responses, res)
+	for range bookIDs {
+		responses = append(responses, <- results)
 	}
 	close(results)
 	return responses
