@@ -8,8 +8,8 @@ POST http://localhost:8080/books
 Content-Type: application/json
 
 {
-  "title": "Clean Code",
-  "author": "Robert C. Martin",
+  "title": "Livro genérico",
+  "author": "John Doec",
   "genre": "Software Engineering"
 }
 

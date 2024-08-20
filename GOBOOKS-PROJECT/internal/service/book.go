@@ -79,8 +79,8 @@ func (s *BookService) DeleteBook(id int) error {
 	return err
 }
 
-func (s *BookService) SearchBooksByName(name string) ([]books, error) {
-	query := "select id, title, author, genre from books when title like ?"
+func (s *BookService) SearchBooksByName(name string) ([]Book, error) {
+	query := "select id, title, author, genre from books where title like ?"
 	rows, err := s.db.Query(query, "%"+name+"%")
 	if err != nil {
 		return nil, err
