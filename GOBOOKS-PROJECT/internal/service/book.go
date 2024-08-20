@@ -88,3 +88,18 @@ func (s *BookService) SimulateReading(bookID int, duration time.Duration, result
 	time.Sleep(duration)
 	results <- fmt.Sprintf("Book %s read", book.Title)
 }
+
+func (s *BookService) SimulateMultipleReadings(bookIDs []int, duration time.Duration) []string {
+	results := make(chan string, len(bookIDs))
+
+	for _, id := range bookIDs {
+		go func(bookID int) {
+			s.SimulateReading(bookID, duration, results)
+		}(id)
+	}
+
+	var responses []string
+	for range bookIDs {
+		responses = append(responses, <- results)
+	}
+}
