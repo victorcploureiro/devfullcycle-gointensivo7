@@ -7,10 +7,10 @@ import (
 )
 
 type Book struct {
-	ID		int
-	Title	string
-	Author	string
-	Genre	string
+	ID     int
+	Title  string
+	Author string
+	Genre  string
 }
 
 type BookService struct {
@@ -32,7 +32,7 @@ func (s *BookService) CreateBook(book *Book) error {
 		return err
 	}
 	book.ID = int(lastInsertID)
-	
+
 	return nil
 }
 
@@ -79,7 +79,27 @@ func (s *BookService) DeleteBook(id int) error {
 	return err
 }
 
-func (s *BookService) SimulateReading(bookID int, duration time.Duration, results chan <- string) {
+func (s *BookService) SearchBooksByName(name string) ([]books, error) {
+	query := "select id, title, author, genre from books when title like ?"
+	rows, err := s.db.Query(query, "%"+name+"%")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var books []Book
+	for rows.Next() {
+		var book Book
+		err := rows.Scan(&book.ID, &book.Title, &book.Author, &book.Genre)
+		if err != nil {
+			return nil, err
+		}
+		books = append(books, book)
+	}
+	return books, nil
+}
+
+func (s *BookService) SimulateReading(bookID int, duration time.Duration, results chan<- string) {
 	book, err := s.GetBookByID(bookID)
 	if err != nil || book == nil {
 		results <- fmt.Sprintf("Book %d not found", bookID)
@@ -100,7 +120,7 @@ func (s *BookService) SimulateMultipleReadings(bookIDs []int, duration time.Dura
 
 	var responses []string
 	for range bookIDs {
-		responses = append(responses, <- results)
+		responses = append(responses, <-results)
 	}
 	close(results)
 	return responses
