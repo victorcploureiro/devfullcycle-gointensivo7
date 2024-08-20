@@ -14,10 +14,14 @@ func worker(workerID int, data chan int) {
 
 func main() { // goroutine 1
 	ch := make(chan int)
-	go worker(1, ch)
-	go worker(2, ch)
+	nWorkers := 15
 
-	for i := range 10 {
+	// worker call
+	for i := range nWorkers {
+		go worker(i, ch)
+	}
+
+	for i := range 15 {
 		ch <- i
 	}
 }
