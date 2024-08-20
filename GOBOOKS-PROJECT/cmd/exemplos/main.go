@@ -19,4 +19,7 @@ func main() { // goroutine 1
 	go func() {
 		ch <- "Full Cycle"
 	}()
+
+	msg := <- ch
+	fmt.Println(msg)
 }
